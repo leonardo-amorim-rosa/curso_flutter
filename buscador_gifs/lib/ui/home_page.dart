@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:buscador_gifs/ui/gif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     if (_search == null)
       response = await http.get("http://api.giphy.com/v1/gifs/trending?api_key=$_apiKey&limit=20&rating=G");
     else
-      response = await http.get("http://api.giphy.com/v1/gifs/search?api_key=$_apiKey&q=$_search&limit=20&offset=$_offset&rating=G&lang=pt");
+      response = await http.get("http://api.giphy.com/v1/gifs/search?api_key=$_apiKey&q=$_search&limit=19&offset=$_offset&rating=G&lang=pt");
 
     return json.decode(response.body);
   }
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    //print service response on console
     _getGifs().then((map) {
       print(map);
     });
@@ -50,6 +52,11 @@ class _HomePageState extends State<HomePage> {
                 labelStyle: TextStyle(color: Colors.white),
                 border: OutlineInputBorder()
               ),
+              onSubmitted: (text) {
+                setState(() {
+                  _search = text;
+                });
+              },
             ),
           ),
           Expanded(
@@ -99,12 +106,34 @@ class _HomePageState extends State<HomePage> {
         ),
         itemCount: _getCount(snapshot.data["data"]),
         itemBuilder: (context, index) {
-          return GestureDetector(
-            child: Image.network(snapshot.data["data"][index]["images"]["fixed_height"]["url"],
-              height: 300.0,
-              fit: BoxFit.cover,
-            ),
-          );
+          if (_search == null || index < snapshot.data["data"].length)
+            return GestureDetector(
+              child: Image.network(snapshot.data["data"][index]["images"]["fixed_height"]["url"],
+                height: 300.0,
+                fit: BoxFit.cover,
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"]["index"])));
+              },
+            );
+          else
+            return Container(
+              child: GestureDetector(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.add, color: Colors.white, size: 70.0),
+                    Text("Carregar mais...",
+                      style: TextStyle(color: Colors.white, fontSize: 22.0))
+                  ],
+                ),
+                onTap: () {
+                  setState(() {
+                    _offset += 19;
+                  });
+                },
+              ),
+            );
         }
     );
   }
