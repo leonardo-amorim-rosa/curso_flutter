@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "643136037846",
+    "firebase_url": "https://chatonlinecursoflutter.firebaseio.com",
+    "project_id": "chatonlinecursoflutter",
+    "storage_bucket": "chatonlinecursoflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643136037846:android:b9f687ff255f9c7c",
+        "android_client_info": {
+          "package_name": "com.example.chatonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643136037846-r8lika71v6b48d3qf072i4u71cn2a0ht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatonline",
+            "certificate_hash": "382b217745742083df8239cb1ee4ed107c4d21b1"
+          }
+        },
+        {
+          "client_id": "643136037846-hmfs0bsmvav88nugf3hmnpoqe4e5gsdv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7p-Vwo7_VVuTBwQYroCiKlDzdmvzydps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643136037846-hmfs0bsmvav88nugf3hmnpoqe4e5gsdv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
