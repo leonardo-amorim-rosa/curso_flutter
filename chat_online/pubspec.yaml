@@ -21,7 +21,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   cloud_firestore: 0.8.2+3
   google_sign_in: 3.2.4
-  firebase_auth: 0.7.0
+  firebase_auth: ^0.5.20
   firebase_storage: 1.0.4
   image_picker: 0.4.12+1
 
