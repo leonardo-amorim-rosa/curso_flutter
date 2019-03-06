@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 void main() => runApp(MyApp());
 
@@ -108,6 +112,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               )
             ),
+            Divider(
+              height: 1.0,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
@@ -154,7 +161,19 @@ class _TextComposerState extends State<TextComposer> {
               Container(
                 child: IconButton(
                   icon: Icon(Icons.photo_camera),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _ensureLoggedIn();
+                    File imgFile = await ImagePicker.pickImage(source: ImageSource.camera);
+                    if (imgFile == null) return;
+                    StorageUploadTask task = FirebaseStorage.instance.ref()
+                    .child("photos")
+                    .child(googleSignIn.currentUser.id.toString() + DateTime.now().millisecondsSinceEpoch.toString())
+                    .putFile(imgFile);
+
+                    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+                    String url = await taskSnapshot.ref.getDownloadURL();
+                    _sendMessage(imgUrl: url);                  },
+
                 ),
               ),
               Expanded(
@@ -226,7 +245,9 @@ class ChatMessage extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 5.0),
-                  child: Text(data["text"]),
+                  child: data["imgUrl"] != null ?
+                    Image.network(data["imgUrl"], width: 250.0,) : 
+                    Text(data["text"])
                 )
               ],
             ),
